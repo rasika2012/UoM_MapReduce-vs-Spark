@@ -1,0 +1,16 @@
+var data = spark.read.format("csv").option("header", "true").load("s3://flightdatacs52229/inputs/DelayedFlights-updated.csv");
+data.createOrReplaceTempView("delay_flights");
+
+
+val result = spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+val result = spark.sql("SELECT Year, avg((NASDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+val result = spark.sql("SELECT Year, avg((WeatherDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+val result = spark.sql("SELECT Year, avg((LateAircraftDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+val result = spark.sql("SELECT Year, avg((SecurityDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+
+spark.time(spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show())
+spark.time(spark.sql("SELECT Year, avg((NASDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show())
+spark.time(spark.sql("SELECT Year, avg((WeatherDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show())
+spark.time(spark.sql("SELECT Year, avg((LateAircraftDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show())
+spark.time(spark.sql("SELECT Year, avg((SecurityDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show())
+
